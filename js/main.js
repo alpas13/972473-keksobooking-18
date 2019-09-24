@@ -35,6 +35,7 @@ var DESCRIPTION = [
   'География вразнобой превышает широкий особый вид куниц.'
 ];
 var TIME = ['12:00', '13:00', '14:00'];
+var COUNT = 8;
 
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
@@ -42,31 +43,30 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+var getRandomArray = function (selectedArr) {
+  return selectedArr.slice(getRandomNumber(0, selectedArr.length - 2));
+};
+
+var getRandomPhotos = function (arrlength, max) {
+  var photos = [];
+  var photoCount = 1;
+  for (var i = 0; i < arrlength; i++) {
+    if (photoCount > max) {
+      photoCount = 1;
+    }
+    photos.push(
+        'http://o0.github.io/assets/images/tokyo/hotel' + photoCount + '.jpg'
+    );
+    photoCount++;
+  }
+  return photos;
+};
+
 var generateAd = function () {
   var ads = [];
-  var count = 8;
   var blockWidth = document.querySelector('.map__overlay').offsetWidth;
 
-  var getRandomArray = function (selectedArr) {
-    return selectedArr.slice(getRandomNumber(0, selectedArr.length - 2));
-  };
-
-  var getRandomPhotos = function (arrlength, max) {
-    var photos = [];
-    var photoCount = 1;
-    for (var i = 0; i < arrlength; i++) {
-      if (photoCount > max) {
-        photoCount = 1;
-      }
-      photos.push(
-          'http://o0.github.io/assets/images/tokyo/hotel' + photoCount + '.jpg'
-      );
-      photoCount++;
-    }
-    return photos;
-  };
-
-  for (var i = 0; i < count; i++) {
+  for (var i = 0; i < COUNT; i++) {
     ads.push({
       author: {avatar: 'img/avatars/user0' + (i + 1) + '.png'},
       offer: {
@@ -93,12 +93,13 @@ var generateAd = function () {
 
 var renderMapPin = function (arr) {
   var pinTemplateElement = pinTemplate.content.cloneNode(true);
+  var avatar = pinTemplateElement.querySelector('img');
   pinTemplateElement.querySelector('.map__pin').style.left =
       arr.location.x - MAP_PIN_WIDTH / 2 + 'px';
   pinTemplateElement.querySelector('.map__pin').style.top =
       arr.location.y - MAP_PIN_HEIGHT + 'px';
-  pinTemplateElement.querySelector('img').src = arr.author.avatar;
-  pinTemplateElement.querySelector('img').alt = arr.offer.title;
+  avatar.src = arr.author.avatar;
+  avatar.alt = arr.offer.title;
 
   return pinTemplateElement;
 };
