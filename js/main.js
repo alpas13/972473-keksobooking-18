@@ -1,10 +1,10 @@
 'use strict';
 
-var pinTemplate = document.querySelector('#pin');
-var map = document.querySelector('.map');
-var MAP_PIN_WIDTH = 50;
-var MAP_PIN_HEIGHT = 70;
-var mapPinsBlock = document.querySelector('.map__pins');
+var KEY_CODE_ENTER = 13;
+var MAP_PIN_SIZE = {
+  width: 50,
+  height: 70
+};
 var TITLE = [
   'Сдается квартира: упади на кредит',
   'Сдается квартира: забота Гольфстрима',
@@ -36,6 +36,42 @@ var DESCRIPTION = [
 ];
 var TIME = ['12:00', '13:00', '14:00'];
 var COUNT = 8;
+var MAP_PIN_POINTER = 16;
+var pinTemplate = document.querySelector('#pin');
+var map = document.querySelector('.map');
+var mapPin = document.querySelector('.map__pin--main');
+var mapPinsBlock = document.querySelector('.map__pins');
+var mapFilter = document.querySelector('.map__filters');
+var selectFieldMapFilter = mapFilter.querySelectorAll('.map__filter');
+var fieldsetFieldMapFilter = mapFilter.querySelector('.map__features');
+var adForm = document.querySelector('.ad-form');
+var headerAdForm = adForm.querySelector('.ad-form-header');
+var elementAdForm = adForm.querySelectorAll('.ad-form__element');
+var addressAdForm = adForm.querySelector('#address');
+var numbersRoomsField = adForm.querySelector('#room_number');
+var numbersGuestsField = adForm.querySelector('#capacity');
+var buttonSendForm = adForm.querySelector('.ad-form__submit');
+
+var disableForm = function (element) {
+  if (element.length > 0) {
+    for (var i = 0; i < element.length; i++) {
+      element[i].disabled = true;
+    }
+  } else {
+    element.disabled = true;
+  }
+};
+
+var activateForm = function (element) {
+  if (element.length > 0) {
+    for (var i = 0; i < element.length; i++) {
+      element[i].disabled = false;
+    }
+  } else {
+    element.disabled = false;
+  }
+  adForm.classList.remove('ad-form--disabled');
+};
 
 var getRandomNumber = function (min, max) {
   min = Math.ceil(min);
@@ -95,9 +131,9 @@ var renderMapPin = function (arr) {
   var pinTemplateElement = pinTemplate.content.cloneNode(true);
   var avatar = pinTemplateElement.querySelector('img');
   pinTemplateElement.querySelector('.map__pin').style.left =
-      arr.location.x - MAP_PIN_WIDTH / 2 + 'px';
+      arr.location.x - MAP_PIN_SIZE.width / 2 + 'px';
   pinTemplateElement.querySelector('.map__pin').style.top =
-      arr.location.y - MAP_PIN_HEIGHT + 'px';
+      arr.location.y - MAP_PIN_SIZE.height + 'px';
   avatar.src = arr.author.avatar;
   avatar.alt = arr.offer.title;
 
@@ -112,9 +148,60 @@ var renderFragment = function (arr, renderPlace) {
   renderPlace.appendChild(fragment);
 };
 
-var init = function () {
+var getMapPinPosition = function () {
+  var location = mapPin.getBoundingClientRect();
+  var left = location.left + pageXOffset;
+  var top = location.top + pageYOffset;
+  var width = location.width;
+  var height = location.height;
+
+  if (adForm.classList.contains('ad-form--disabled')) {
+    return Math.floor(left + width / 2) + ', ' + Math.floor(top + height / 2);
+  }
+
+  return Math.floor(left + width / 2) + ', ' + Math.floor(top + height + MAP_PIN_POINTER);
+};
+
+var testGuestValidity = function () {
+  var numberRoomSelected = numbersRoomsField.value;
+  var numberGuestSelected = numbersGuestsField.value;
+
+  if (numberRoomSelected === '100 комнат' && numberGuestSelected === 'не для гостей') {
+    numbersGuestsField.setCustomValidity('');
+  } else if (numberRoomSelected !== numberGuestSelected) {
+    numbersGuestsField.setCustomValidity('Количество гостей не соответствует количеству комнат');
+  } else {
+    numbersGuestsField.setCustomValidity('');
+  }
+};
+
+var activatePage = function () {
   renderFragment(generateAd(), mapPinsBlock);
+  activateForm(selectFieldMapFilter);
+  activateForm(fieldsetFieldMapFilter);
+  activateForm(headerAdForm);
+  activateForm(elementAdForm);
+  addressAdForm.value = getMapPinPosition();
   map.classList.remove('map--faded');
+};
+
+var init = function () {
+  disableForm(selectFieldMapFilter);
+  disableForm(fieldsetFieldMapFilter);
+  disableForm(headerAdForm);
+  disableForm(elementAdForm);
+  addressAdForm.value = getMapPinPosition();
+  mapPin.addEventListener('mousedown', function () {
+    activatePage();
+  });
+  mapPin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === KEY_CODE_ENTER) {
+      activatePage();
+    }
+  });
+  buttonSendForm.addEventListener('click', function () {
+    testGuestValidity();
+  });
 };
 
 init();
