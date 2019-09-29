@@ -1,5 +1,6 @@
 'use strict';
 
+var KEY_CODE_ENTER = 13;
 var MAP_PIN_SIZE = {
   width: 50,
   height: 70
@@ -49,6 +50,7 @@ var elementAdForm = adForm.querySelectorAll('.ad-form__element');
 var addressAdForm = adForm.querySelector('#address');
 var numbersRoomsField = adForm.querySelector('#room_number');
 var numbersGuestsField = adForm.querySelector('#capacity');
+var buttonSendForm = adForm.querySelector('.ad-form__submit');
 
 var disableForm = function (element) {
   if (element.length > 0) {
@@ -161,8 +163,8 @@ var getMapPinPosition = function () {
 };
 
 var testGuestValidity = function () {
-  var numberRoomSelected = numbersRoomsField.options[numbersRoomsField.selectedIndex].value;
-  var numberGuestSelected = numbersGuestsField.options[numbersGuestsField.selectedIndex].value;
+  var numberRoomSelected = numbersRoomsField.value;
+  var numberGuestSelected = numbersGuestsField.value;
 
   if (numberRoomSelected === '100 комнат' && numberGuestSelected === 'не для гостей') {
     numbersGuestsField.setCustomValidity('');
@@ -173,36 +175,31 @@ var testGuestValidity = function () {
   }
 };
 
-var init = function () {
+var activatePage = function () {
   renderFragment(generateAd(), mapPinsBlock);
+  activateForm(selectFieldMapFilter);
+  activateForm(fieldsetFieldMapFilter);
+  activateForm(headerAdForm);
+  activateForm(elementAdForm);
+  addressAdForm.value = getMapPinPosition();
+  map.classList.remove('map--faded');
+};
+
+var init = function () {
   disableForm(selectFieldMapFilter);
   disableForm(fieldsetFieldMapFilter);
   disableForm(headerAdForm);
   disableForm(elementAdForm);
   addressAdForm.value = getMapPinPosition();
   mapPin.addEventListener('mousedown', function () {
-    activateForm(selectFieldMapFilter);
-    activateForm(fieldsetFieldMapFilter);
-    activateForm(headerAdForm);
-    activateForm(elementAdForm);
-    addressAdForm.value = getMapPinPosition();
-    map.classList.remove('map--faded');
+    activatePage();
   });
   mapPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      activateForm(selectFieldMapFilter);
-      activateForm(fieldsetFieldMapFilter);
-      activateForm(headerAdForm);
-      activateForm(elementAdForm);
-      addressAdForm.value = getMapPinPosition();
-      map.classList.remove('map--faded');
+    if (evt.keyCode === KEY_CODE_ENTER) {
+      activatePage();
     }
   });
-  testGuestValidity();
-  numbersRoomsField.addEventListener('input', function () {
-    testGuestValidity();
-  });
-  numbersGuestsField.addEventListener('input', function () {
+  buttonSendForm.addEventListener('click', function () {
     testGuestValidity();
   });
 };
