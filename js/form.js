@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  window.adForm = document.querySelector('.ad-form');
-  var numbersRoomsField = window.adForm.querySelector('#room_number');
-  var numbersGuestsField = window.adForm.querySelector('#capacity');
-  var buttonSendForm = window.adForm.querySelector('.ad-form__submit');
+  var adForm = document.querySelector('.ad-form');
+  var numbersRoomsField = adForm.querySelector('#room_number');
+  var numbersGuestsField = adForm.querySelector('#capacity');
+  var buttonSendForm = adForm.querySelector('.ad-form__submit');
 
-  window.disableForm = function (element) {
+  var disableForm = function (element) {
     if (element.length > 0) {
       for (var i = 0; i < element.length; i++) {
         element[i].disabled = true;
@@ -16,7 +16,7 @@
     }
   };
 
-  window.activateForm = function (element) {
+  var activateForm = function (element) {
     if (element.length > 0) {
       for (var i = 0; i < element.length; i++) {
         element[i].disabled = false;
@@ -24,7 +24,7 @@
     } else {
       element.disabled = false;
     }
-    window.adForm.classList.remove('ad-form--disabled');
+    adForm.classList.remove('ad-form--disabled');
   };
 
   var testGuestValidity = function () {
@@ -38,6 +38,12 @@
     } else {
       numbersGuestsField.setCustomValidity('');
     }
+  };
+
+  window.form = {
+    'adForm': adForm,
+    'disableForm': disableForm,
+    'activateForm': activateForm
   };
 
   buttonSendForm.addEventListener('click', function () {

@@ -58,7 +58,7 @@
     return photos;
   };
 
-  window.generateAd = function () {
+  var generateAd = function () {
     var ads = [];
     var blockWidth = document.querySelector('.map__overlay').offsetWidth;
 
@@ -85,5 +85,9 @@
       });
     }
     return ads;
+  };
+
+  window.data = {
+    'generateAd': generateAd
   };
 })();
