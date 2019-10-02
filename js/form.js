@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var adForm = document.querySelector('.ad-form');
-  var numbersRoomsField = adForm.querySelector('#room_number');
-  var numbersGuestsField = adForm.querySelector('#capacity');
-  var buttonSendForm = adForm.querySelector('.ad-form__submit');
+  var adElement = document.querySelector('.ad-form');
+  var numbersRoomsField = adElement.querySelector('#room_number');
+  var numbersGuestsField = adElement.querySelector('#capacity');
+  var buttonSendForm = adElement.querySelector('.ad-form__submit');
 
-  var disableForm = function (element) {
+  var disableElement = function (element) {
     if (element.length > 0) {
       for (var i = 0; i < element.length; i++) {
         element[i].disabled = true;
@@ -16,7 +16,7 @@
     }
   };
 
-  var activateForm = function (element) {
+  var activateElement = function (element) {
     if (element.length > 0) {
       for (var i = 0; i < element.length; i++) {
         element[i].disabled = false;
@@ -24,7 +24,7 @@
     } else {
       element.disabled = false;
     }
-    adForm.classList.remove('ad-form--disabled');
+    adElement.classList.remove('ad-form--disabled');
   };
 
   var testGuestValidity = function () {
@@ -41,9 +41,9 @@
   };
 
   window.form = {
-    'adForm': adForm,
-    'disableForm': disableForm,
-    'activateForm': activateForm
+    'adElement': adElement,
+    'disableElement': disableElement,
+    'activateElement': activateElement
   };
 
   buttonSendForm.addEventListener('click', function () {
