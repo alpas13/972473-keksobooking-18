@@ -6,34 +6,34 @@
   var mapFilter = document.querySelector('.map__filters');
   var selectFieldMapFilter = mapFilter.querySelectorAll('.map__filter');
   var fieldsetFieldMapFilter = mapFilter.querySelector('.map__features');
-  var headerAdForm = window.form.adForm.querySelector('.ad-form-header');
-  var elementAdForm = window.form.adForm.querySelectorAll('.ad-form__element');
-  var addressAdForm = window.form.adForm.querySelector('#address');
+  var headerAdForm = window.form.adElement.querySelector('.ad-form-header');
+  var elementAdForm = window.form.adElement.querySelectorAll('.ad-form__element');
+  var addressAdForm = window.form.adElement.querySelector('#address');
 
   var disabledFormPage = function () {
-    window.form.disableForm(selectFieldMapFilter);
-    window.form.disableForm(fieldsetFieldMapFilter);
-    window.form.disableForm(headerAdForm);
-    window.form.disableForm(elementAdForm);
+    window.form.disableElement(selectFieldMapFilter);
+    window.form.disableElement(fieldsetFieldMapFilter);
+    window.form.disableElement(headerAdForm);
+    window.form.disableElement(elementAdForm);
   };
 
   var activatePage = function () {
     window.card.renderFragment(window.data.generateAd(), mapPinsBlock);
-    window.form.activateForm(selectFieldMapFilter);
-    window.form.activateForm(fieldsetFieldMapFilter);
-    window.form.activateForm(headerAdForm);
-    window.form.activateForm(elementAdForm);
-    addressAdForm.value = window.pin.getMapPinPosition();
+    window.form.activateElement(selectFieldMapFilter);
+    window.form.activateElement(fieldsetFieldMapFilter);
+    window.form.activateElement(headerAdForm);
+    window.form.activateElement(elementAdForm);
+    addressAdForm.value = window.pin.getMapPointerPosition();
     map.classList.remove('map--faded');
   };
 
   var init = function () {
     disabledFormPage();
-    addressAdForm.value = window.pin.getMapPinPosition();
-    window.pin.mapPin.addEventListener('mousedown', function () {
+    addressAdForm.value = window.pin.getMapPointerPosition();
+    window.pin.mapPointer.addEventListener('mousedown', function () {
       activatePage();
     });
-    window.pin.mapPin.addEventListener('keydown', function (evt) {
+    window.pin.mapPointer.addEventListener('keydown', function (evt) {
       if (evt.keyCode === KEY_CODE_ENTER) {
         activatePage();
       }
