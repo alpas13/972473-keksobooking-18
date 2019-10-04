@@ -9,6 +9,8 @@
   var headerAdForm = window.form.adElement.querySelector('.ad-form-header');
   var elementAdForm = window.form.adElement.querySelectorAll('.ad-form__element');
   var addressAdForm = window.form.adElement.querySelector('#address');
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var mainContent = document.querySelector('main');
 
   var disabledFormPage = function () {
     window.form.disableElement(selectFieldMapFilter);
@@ -17,8 +19,18 @@
     window.form.disableElement(elementAdForm);
   };
 
+  var onSuccess = function (adsData) {
+    window.card.renderFragment(adsData, mapPinsBlock);
+  };
+
+  var onError = function (message) {
+    var errorElement = errorTemplate.cloneNode(true);
+    errorElement.querySelector('.error__message').textContent = message;
+    mainContent.appendChild(errorElement);
+  };
+
   var activatePage = function () {
-    window.card.renderFragment(window.data.generateAd(), mapPinsBlock);
+    window.load(onSuccess, onError);
     window.form.activateElement(selectFieldMapFilter);
     window.form.activateElement(fieldsetFieldMapFilter);
     window.form.activateElement(headerAdForm);
