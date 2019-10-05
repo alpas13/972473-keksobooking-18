@@ -1,6 +1,9 @@
 'use strict';
 (function () {
-  var KEY_CODE_ENTER = 13;
+  var KeyCode = {
+    ENTER: 13,
+    ESC: 27
+  };
   var map = document.querySelector('.map');
   var mapPinsBlock = document.querySelector('.map__pins');
   var mapFilter = document.querySelector('.map__filters');
@@ -28,6 +31,7 @@
   var onError = function (message) {
     var errorElement = errorTemplate.cloneNode(true);
     errorElement.querySelector('.error__message').textContent = message;
+    mainContent.appendChild(errorElement);
     errorElement.addEventListener('click', function (evt) {
       var target = evt.target;
       if (target.className !== 'error__button') {
@@ -38,8 +42,14 @@
     errorElement.querySelector('.error__button').addEventListener('click', function () {
       mainContent.removeChild(errorElement);
       window.load(onSuccess, onError);
-    }, false);
-    mainContent.appendChild(errorElement);
+    });
+    window.addEventListener('keydown', function (evt) {
+      evt.preventDefault();
+      if (evt.keyCode === KeyCode.ESC && mainContent.lastChild === errorElement) {
+        mainContent.removeChild(errorElement);
+        disabledFormPage();
+      }
+    });
   };
 
   var activatePage = function () {
@@ -59,7 +69,7 @@
       activatePage();
     });
     window.pin.mapPointer.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === KEY_CODE_ENTER) {
+      if (evt.keyCode === KeyCode.ENTER) {
         activatePage();
       }
     });
