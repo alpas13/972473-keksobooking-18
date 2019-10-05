@@ -24,7 +24,6 @@
     } else {
       element.disabled = false;
     }
-    adElement.classList.remove('ad-form--disabled');
   };
 
   var testGuestValidity = function () {

@@ -17,6 +17,8 @@
     window.form.disableElement(fieldsetFieldMapFilter);
     window.form.disableElement(headerAdForm);
     window.form.disableElement(elementAdForm);
+    window.form.adElement.classList.add('ad-form--disabled');
+    map.classList.add('map--faded');
   };
 
   var onSuccess = function (adsData) {
@@ -26,6 +28,17 @@
   var onError = function (message) {
     var errorElement = errorTemplate.cloneNode(true);
     errorElement.querySelector('.error__message').textContent = message;
+    errorElement.addEventListener('click', function (evt) {
+      var target = evt.target;
+      if (target.className !== 'error__button') {
+        mainContent.removeChild(errorElement);
+        disabledFormPage();
+      }
+    });
+    errorElement.querySelector('.error__button').addEventListener('click', function () {
+      mainContent.removeChild(errorElement);
+      window.load(onSuccess, onError);
+    }, false);
     mainContent.appendChild(errorElement);
   };
 
@@ -35,7 +48,7 @@
     window.form.activateElement(fieldsetFieldMapFilter);
     window.form.activateElement(headerAdForm);
     window.form.activateElement(elementAdForm);
-    addressAdForm.value = window.pin.getMapPointerPosition();
+    window.form.adElement.classList.remove('ad-form--disabled');
     map.classList.remove('map--faded');
   };
 
