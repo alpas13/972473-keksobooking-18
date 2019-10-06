@@ -1,11 +1,11 @@
 'use strict';
 (function () {
-  var renderFragment = function (arr, renderPlace) {
+  var renderFragment = function (arr, callback, renderPlace, referenceElement) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < arr.length; i++) {
-      fragment.appendChild(window.pin.renderMapPointer(arr[i]));
+      fragment.appendChild(callback(arr[i]));
     }
-    renderPlace.appendChild(fragment);
+    renderPlace.insertBefore(fragment, referenceElement);
   };
 
   window.card = {

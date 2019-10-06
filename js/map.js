@@ -6,6 +6,7 @@
   };
   var map = document.querySelector('.map');
   var mapPinsBlock = document.querySelector('.map__pins');
+  var mapFilterContainer = document.querySelector('.map__filters-container');
   var mapFilter = document.querySelector('.map__filters');
   var selectFieldMapFilter = mapFilter.querySelectorAll('.map__filter');
   var fieldsetFieldMapFilter = mapFilter.querySelector('.map__features');
@@ -25,7 +26,8 @@
   };
 
   var onSuccess = function (adsData) {
-    window.card.renderFragment(adsData, mapPinsBlock);
+    window.card.renderFragment(adsData, window.pin.renderMapPointer, mapPinsBlock);
+    window.card.renderFragment(adsData, window.popup.renderAd, map, mapFilterContainer);
   };
 
   var onError = function (message) {
