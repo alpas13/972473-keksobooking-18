@@ -4,7 +4,6 @@
     ENTER: 13,
     ESC: 27
   };
-  var REFERENCE_ELEMENT = null;
   var map = document.querySelector('.map');
   var mapPinsBlock = document.querySelector('.map__pins');
   var mapFilterContainer = document.querySelector('.map__filters-container');
