@@ -4,6 +4,7 @@
     ENTER: 13,
     ESC: 27
   };
+  var REFERENCE_ELEMENT = null;
   var map = document.querySelector('.map');
   var mapPinsBlock = document.querySelector('.map__pins');
   var mapFilterContainer = document.querySelector('.map__filters-container');
@@ -26,8 +27,8 @@
   };
 
   var onSuccess = function (adsData) {
-    window.card.renderFragment(adsData, window.pin.renderMapPointer, mapPinsBlock);
-    window.card.renderFragment(adsData, window.popup.renderAd, map, mapFilterContainer);
+    window.card.renderPinFragment(adsData, mapPinsBlock, window.pin.renderMapPointer);
+    window.card.renderPopupFragment(adsData, map, mapFilterContainer, window.popup.renderAd);
   };
 
   var onError = function (message) {

@@ -1,57 +1,55 @@
 'use strict';
 
 (function () {
-  var adTemplate = document.querySelector('#card');
-
-  var gerType = function (type) {
-    var housingType;
-    switch (type) {
-      case 'flat':
-        housingType = 'Квартира';
-        break;
-      case 'bungalo':
-        housingType = 'Бунгало';
-        break;
-      case 'house':
-        housingType = 'Дом';
-        break;
-      case 'palace':
-        housingType = 'Дворец';
-        break;
-      default:
-        housingType = '';
-    }
-    return housingType;
+  var HousingType = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец'
   };
 
+  var valuetToClassName = {
+    'wifi': 'popup__feature--wifi',
+    'dishwasher': 'popup__feature--dishwasher',
+    'parking': 'popup__feature--parking',
+    'washer': 'popup__feature--washer',
+    'elevator': 'popup__feature--elevator',
+    'conditioner': 'popup__feature--conditioner'
+  };
+
+  var adTemplate = document.querySelector('#card');
+
   var renderFeatures = function (features) {
-    var featuresTemplate = adTemplate.content.querySelector('.popup__features');
-    var featuresTemplateList = featuresTemplate.querySelectorAll('.popup__feature');
+    var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < featuresTemplateList.length; i++) {
-      featuresTemplate.removeChild(featuresTemplateList[i]);
+    for (var i = 0; i < features.length; i++) {
+      var featureTemplateElement = document.createElement('li');
+      featureTemplateElement.classList.add('popup__feature');
+      featureTemplateElement.classList.add(valuetToClassName[features[i]]);
+
+      fragment.appendChild(featureTemplateElement);
     }
 
-    for (var j = 0; j < features.length; j++) {
-      featuresTemplate.insertAdjacentHTML('beforeend', '<li class="popup__feature popup__feature--' + features[j] + '"></li>');
-    }
-
-    return featuresTemplate;
+    return fragment;
   };
 
   var renderPhotos = function (photos) {
     var photosTemplate = adTemplate.content.querySelector('.popup__photos');
-    var photoTemplateElements = photosTemplate.querySelectorAll('.popup__photo');
+    var photoTemplate = photosTemplate.querySelector('.popup__photo');
+    var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < photoTemplateElements.length; i++) {
-      photosTemplate.removeChild(photoTemplateElements[i]);
+    for (var i = 0; i < photos.length; i++) {
+      var photoTemplateElement = document.createElement('img');
+      photoTemplateElement.alt = photoTemplate.alt;
+      photoTemplateElement.class = photoTemplate.class;
+      photoTemplateElement.height = photoTemplate.height;
+      photoTemplateElement.src = photos[i];
+      photoTemplateElement.width = photoTemplate.width;
+
+      fragment.appendChild(photoTemplateElement);
     }
 
-    for (var j = 0; j < photos.length; j++) {
-      photosTemplate.insertAdjacentHTML('beforeend', '<img alt="Фотография жилья" class="popup__photo" height="40" src="' + photos[j] + '" width="45">');
-    }
-
-    return photosTemplate;
+    return fragment;
   };
 
   var renderAd = function (arr) {
@@ -60,12 +58,14 @@
     adTemplateElement.querySelector('.popup__title').textContent = arr.offer.title;
     adTemplateElement.querySelector('.popup__text--address').textContent = arr.offer.address;
     adTemplateElement.querySelector('.popup__text--price').textContent = arr.offer.price + '₽/ночь';
-    adTemplateElement.querySelector('.popup__type').textContent = gerType(arr.offer.type);
+    adTemplateElement.querySelector('.popup__type').textContent = HousingType[arr.offer.type];
     adTemplateElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + 'комнаты для ' + arr.offer.guests + ' гостей';
     adTemplateElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
-    renderFeatures(arr.offer.features);
+    adTemplateElement.querySelector('.popup__features').innerHTML = '';
+    adTemplateElement.querySelector('.popup__features').appendChild(renderFeatures(arr.offer.features));
     adTemplateElement.querySelector('.popup__description').textContent = arr.offer.description;
-    renderPhotos(arr.offer.photos);
+    adTemplateElement.querySelector('.popup__photos').innerHTML = '';
+    adTemplateElement.querySelector('.popup__photos').appendChild(renderPhotos(arr.offer.photos));
 
     return adTemplateElement;
   };
