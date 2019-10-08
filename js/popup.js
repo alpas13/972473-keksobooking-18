@@ -8,7 +8,7 @@
     'palace': 'Дворец'
   };
 
-  var valuetToClassName = {
+  var ValueToClassName = {
     'wifi': 'popup__feature--wifi',
     'dishwasher': 'popup__feature--dishwasher',
     'parking': 'popup__feature--parking',
@@ -25,7 +25,7 @@
     for (var i = 0; i < features.length; i++) {
       var featureTemplateElement = document.createElement('li');
       featureTemplateElement.classList.add('popup__feature');
-      featureTemplateElement.classList.add(valuetToClassName[features[i]]);
+      featureTemplateElement.classList.add(ValueToClassName[features[i]]);
 
       fragment.appendChild(featureTemplateElement);
     }
