@@ -5,7 +5,6 @@
     ESC: 27
   };
   var map = document.querySelector('.map');
-  var mapPinsBlock = document.querySelector('.map__pins');
   var mapFilterContainer = document.querySelector('.map__filters-container');
   var mapFilter = document.querySelector('.map__filters');
   var selectFieldMapFilter = mapFilter.querySelectorAll('.map__filter');
@@ -26,7 +25,7 @@
   };
 
   var onSuccess = function (adsData) {
-    window.card.renderPinFragment(adsData, mapPinsBlock, window.pin.renderMapPointer);
+    window.filter(adsData);
     window.card.renderPopupFragment(adsData, map, mapFilterContainer, window.popup.renderAd);
   };
 

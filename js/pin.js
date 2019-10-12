@@ -7,6 +7,7 @@
   };
   var MAP_PIN_POINTER = 16;
   var mapPointer = document.querySelector('.map__pin--main');
+  var mapOverlay = document.querySelector('.map__overlay');
   var pinTemplate = document.querySelector('#pin');
 
   var getMapPointerPosition = function () {
@@ -38,6 +39,7 @@
 
   window.pin = {
     'mapPointer': mapPointer,
+    'mapOverlay': mapOverlay,
     'getMapPointerPosition': getMapPointerPosition,
     'renderMapPointer': renderMapPointer
   };

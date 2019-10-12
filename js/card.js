@@ -2,6 +2,8 @@
 (function () {
   var renderPinFragment = function (arr, renderPlace, callback) {
     var fragment = document.createDocumentFragment();
+    fragment.appendChild(window.pin.mapOverlay);
+    fragment.appendChild(window.pin.mapPointer);
     for (var i = 0; i < arr.length; i++) {
       fragment.appendChild(callback(arr[i]));
     }
