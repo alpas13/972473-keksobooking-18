@@ -25,7 +25,7 @@
   };
 
   var onSuccess = function (adsData) {
-    window.filter(adsData);
+    window.filter.housingSearch(adsData);
     window.card.renderPopupFragment(adsData, map, mapFilterContainer, window.popup.renderAd);
   };
 
