@@ -26,13 +26,22 @@
 
   var renderMapPointer = function (arr) {
     var pinTemplateElement = pinTemplate.content.cloneNode(true);
+    var pin = pinTemplateElement.querySelector('.map__pin');
     var avatar = pinTemplateElement.querySelector('img');
-    pinTemplateElement.querySelector('.map__pin').style.left =
-        arr.location.x - MAP_PIN_SIZE.width / 2 + 'px';
-    pinTemplateElement.querySelector('.map__pin').style.top =
-        arr.location.y - MAP_PIN_SIZE.height + 'px';
+    pin.style.left = arr.location.x - MAP_PIN_SIZE.width / 2 + 'px';
+    pin.style.top = arr.location.y - MAP_PIN_SIZE.height + 'px';
     avatar.src = arr.author.avatar;
     avatar.alt = arr.offer.title;
+
+    pin.addEventListener('click', function () {
+      window.card.renderPopupFragment(arr, window.popup.renderAd);
+    });
+
+    pin.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.render.KeyCode.ENTER) {
+        window.card.renderPopupFragment(arr, window.popup.renderAd);
+      }
+    });
 
     return pinTemplateElement;
   };

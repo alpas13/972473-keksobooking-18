@@ -55,6 +55,7 @@
   var renderAd = function (arr) {
     var adTemplateElement = adTemplate.content.cloneNode(true);
 
+    adTemplateElement.querySelector('.popup__avatar').src = arr.author.avatar;
     adTemplateElement.querySelector('.popup__title').textContent = arr.offer.title;
     adTemplateElement.querySelector('.popup__text--address').textContent = arr.offer.address;
     adTemplateElement.querySelector('.popup__text--price').textContent = arr.offer.price + '₽/ночь';
