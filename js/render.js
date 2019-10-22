@@ -5,7 +5,6 @@
     ESC: 27
   };
   var map = document.querySelector('.map');
-  var mapFilterContainer = document.querySelector('.map__filters-container');
   var mapFilter = document.querySelector('.map__filters');
   var selectFieldMapFilter = mapFilter.querySelectorAll('.map__filter');
   var fieldsetFieldMapFilter = mapFilter.querySelector('.map__features');
@@ -26,7 +25,7 @@
 
   var onSuccess = function (adsData) {
     window.filter.housingSearch(adsData);
-    window.card.renderPopupFragment(adsData, map, mapFilterContainer, window.popup.renderAd);
+    window.card.renderPopupFragment(adsData[0], window.popup.renderAd);
   };
 
   var onError = function (message) {
@@ -77,4 +76,9 @@
   };
 
   init();
+
+  window.render = {
+    'map': map,
+    'KeyCode': KeyCode
+  };
 })();
