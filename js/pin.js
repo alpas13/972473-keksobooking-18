@@ -5,7 +5,7 @@
     width: 50,
     height: 70
   };
-  var MAP_PIN_POINTER = 16;
+  var MAP_PIN_POINTER = 17;
   var mapPointer = document.querySelector('.map__pin--main');
   var mapOverlay = document.querySelector('.map__overlay');
   var pinTemplate = document.querySelector('#pin');
@@ -47,6 +47,7 @@
   };
 
   window.pin = {
+    'MAP_PIN_POINTER': MAP_PIN_POINTER,
     'mapPointer': mapPointer,
     'mapOverlay': mapOverlay,
     'getMapPointerPosition': getMapPointerPosition,
