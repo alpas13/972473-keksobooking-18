@@ -25,7 +25,6 @@
 
   var onSuccess = function (adsData) {
     window.filter.housingSearch(adsData);
-    window.card.renderPopupFragment(adsData[0], window.popup.renderAd);
   };
 
   var onError = function (message) {
@@ -79,6 +78,7 @@
 
   window.render = {
     'map': map,
-    'KeyCode': KeyCode
+    'KeyCode': KeyCode,
+    'addressAdForm': addressAdForm
   };
 })();
