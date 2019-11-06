@@ -76,6 +76,7 @@
   });
 
   window.filter = {
+    'mapPinsBlock': mapPinsBlock,
     'housingSearch': housingSearch
   };
 })();

@@ -13,6 +13,8 @@
   var addressAdForm = window.form.adElement.querySelector('#address');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var mainContent = document.querySelector('main');
+  var sendSuccessTemplate = document.querySelector('#success').content.querySelector('.success');
+  var sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var disabledFormPage = function () {
     window.form.disableElement(selectFieldMapFilter);
@@ -66,10 +68,43 @@
     addressAdForm.value = window.pin.getMapPointerPosition();
     window.pin.mapPointer.addEventListener('mousedown', function () {
       activatePage();
+      window.form.adGuestValidity();
     });
     window.pin.mapPointer.addEventListener('keydown', function (evt) {
       if (evt.keyCode === KeyCode.ENTER) {
         activatePage();
+      }
+    });
+  };
+
+  var sendSuccessFormData = function () {
+    var popupSuccessFormSend = sendSuccessTemplate.cloneNode(true);
+    mainContent.appendChild(popupSuccessFormSend);
+    popupSuccessFormSend.addEventListener('click', function () {
+      if (mainContent.querySelector('.success')) {
+        mainContent.removeChild(popupSuccessFormSend);
+      }
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === KeyCode.ESC && mainContent.querySelector('.success')) {
+        evt.preventDefault();
+        mainContent.removeChild(popupSuccessFormSend);
+      }
+    });
+  };
+
+  var sendErrorFormData = function () {
+    var popupErrorFormSend = sendErrorTemplate.cloneNode(true);
+    mainContent.appendChild(popupErrorFormSend);
+    popupErrorFormSend.addEventListener('click', function () {
+      if (mainContent.querySelector('.error')) {
+        mainContent.removeChild(popupErrorFormSend);
+      }
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === KeyCode.ESC && mainContent.querySelector('.error')) {
+        evt.preventDefault();
+        mainContent.removeChild(popupErrorFormSend);
       }
     });
   };
@@ -79,6 +114,10 @@
   window.render = {
     'map': map,
     'KeyCode': KeyCode,
-    'addressAdForm': addressAdForm
+    'addressAdForm': addressAdForm,
+    'disabledFormPage': disabledFormPage,
+    'init': init,
+    'sendSuccessFormData': sendSuccessFormData,
+    'sendErrorFormData': sendErrorFormData
   };
 })();

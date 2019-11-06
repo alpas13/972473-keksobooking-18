@@ -9,15 +9,19 @@
   var mapPointer = document.querySelector('.map__pin--main');
   var mapOverlay = document.querySelector('.map__overlay');
   var pinTemplate = document.querySelector('#pin');
+  var mapPointerLeft = null;
+  var mapPointerTop = null;
 
   var getMapPointerPosition = function () {
     var location = mapPointer.getBoundingClientRect();
-    var left = location.left + pageXOffset;
+    var left = location.left + pageXOffset - window.address.leftShift;
     var top = location.top + pageYOffset;
     var width = location.width;
     var height = location.height;
 
     if (window.form.adElement.classList.contains('ad-form--disabled')) {
+      window.pin.mapPointerLeft = left;
+      window.pin.mapPointerTop = top;
       return Math.floor(left + width / 2) + ', ' + Math.floor(top + height / 2);
     }
 
@@ -50,6 +54,8 @@
     'MAP_PIN_POINTER': MAP_PIN_POINTER,
     'mapPointer': mapPointer,
     'mapOverlay': mapOverlay,
+    'mapPointerLeft': mapPointerLeft,
+    'mapPointerTop': mapPointerTop,
     'getMapPointerPosition': getMapPointerPosition,
     'renderMapPointer': renderMapPointer
   };

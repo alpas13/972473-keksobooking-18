@@ -6,7 +6,11 @@
     'BOTTOM': 630
   };
 
-  var leftShift = null;
+  var mapSize = window.pin.mapOverlay.getBoundingClientRect();
+  var leftShift = mapSize.x;
+  var mapSizeLeft = mapSize.left + pageXOffset;
+  var mapSizeTop = mapSize.top + pageYOffset;
+  var mapSizeWidth = mapSize.width;
   var horizonShift = null;
   var verticalShift = null;
   var topConstraint = null;
@@ -35,12 +39,6 @@
   window.pin.mapPointer.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var mapSize = window.pin.mapOverlay.getBoundingClientRect();
-    leftShift = mapSize.x;
-    var mapSizeLeft = mapSize.left + pageXOffset;
-    var mapSizeTop = mapSize.top + pageYOffset;
-    var mapSizeWidth = mapSize.width;
-
     var pinSize = window.pin.mapPointer.getBoundingClientRect();
     var pinSizeWidth = pinSize.width;
     var pinSizeHeight = pinSize.height;
@@ -55,4 +53,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.address = {
+    'leftShift': leftShift
+  };
 })();

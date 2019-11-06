@@ -3,14 +3,19 @@
   var mapFilterContainer = document.querySelector('.map__filters-container');
   var popupCard = null;
 
-  var renderPinFragment = function (arr, renderPlace, callback) {
+  var renderPinFragment = function () {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(window.pin.mapOverlay);
     fragment.appendChild(window.pin.mapPointer);
-    arr.forEach(function (value) {
-      fragment.appendChild(callback(value));
-    });
-    renderPlace.appendChild(fragment);
+    if (arguments.length > 1) {
+      var callback = arguments[2];
+      arguments[0].forEach(function (value) {
+        fragment.appendChild(callback(value));
+      });
+      arguments[1].appendChild(fragment);
+    } else {
+      arguments[0].appendChild(fragment);
+    }
   };
 
   var closePopup = function () {
@@ -41,6 +46,7 @@
   });
 
   window.card = {
+    'closePopup': closePopup,
     'renderPinFragment': renderPinFragment,
     'renderPopupFragment': renderPopupFragment,
     'popupCard': popupCard
