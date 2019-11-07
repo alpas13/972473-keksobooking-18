@@ -4,8 +4,9 @@
   var STATUS_OK = 200;
   var TIMEOUT = 10000;
   var URL = 'https://js.dump.academy/keksobooking/data';
+  var SUBMIT_URL = 'https://js.dump.academy/keksobooking';
 
-  window.load = function (onSuccess, onError) {
+  var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -28,5 +29,25 @@
     xhr.timeout = TIMEOUT;
     xhr.open('GET', URL);
     xhr.send();
+  };
+
+  var submitForm = function (successPopup, errorPopup) {
+    var formData = new FormData(window.form.adElement);
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', function () {
+      if (xhr.status === STATUS_OK) {
+        successPopup();
+      }
+    });
+    xhr.addEventListener('error', function () {
+      errorPopup();
+    });
+    xhr.open('POST', SUBMIT_URL);
+    xhr.send(formData);
+  };
+
+  window.backend = {
+    'load': load,
+    'submitForm': submitForm
   };
 })();

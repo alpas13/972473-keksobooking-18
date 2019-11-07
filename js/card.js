@@ -41,6 +41,7 @@
   });
 
   window.card = {
+    'closePopup': closePopup,
     'renderPinFragment': renderPinFragment,
     'renderPopupFragment': renderPopupFragment,
     'popupCard': popupCard
