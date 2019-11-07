@@ -52,12 +52,19 @@
     });
   };
 
+  var resetPinFragment = function (renderPlace) {
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(window.pin.mapOverlay);
+    fragment.appendChild(window.pin.mapPointer);
+    renderPlace.appendChild(fragment);
+  };
+
   var resetForm = function () {
     adElement.reset();
     adGuestValidity();
     window.card.closePopup();
     window.filter.mapPinsBlock.innerHTML = '';
-    window.card.renderPinFragment(window.filter.mapPinsBlock);
+    resetPinFragment(window.filter.mapPinsBlock);
     window.pin.mapPointer.style.left = window.pin.mapPointerLeft + 'px';
     window.pin.mapPointer.style.top = window.pin.mapPointerTop + 'px';
     changePrice();
@@ -96,7 +103,7 @@
 
   adElement.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.submitForm();
+    window.backend.submitForm(window.render.sendSuccessFormData, window.render.sendErrorFormData);
     resetForm();
   });
 

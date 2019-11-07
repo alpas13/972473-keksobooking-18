@@ -3,19 +3,14 @@
   var mapFilterContainer = document.querySelector('.map__filters-container');
   var popupCard = null;
 
-  var renderPinFragment = function () {
+  var renderPinFragment = function (arr, renderPlace, callback) {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(window.pin.mapOverlay);
     fragment.appendChild(window.pin.mapPointer);
-    if (arguments.length > 1) {
-      var callback = arguments[2];
-      arguments[0].forEach(function (value) {
-        fragment.appendChild(callback(value));
-      });
-      arguments[1].appendChild(fragment);
-    } else {
-      arguments[0].appendChild(fragment);
-    }
+    arr.forEach(function (value) {
+      fragment.appendChild(callback(value));
+    });
+    renderPlace.appendChild(fragment);
   };
 
   var closePopup = function () {

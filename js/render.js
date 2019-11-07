@@ -42,7 +42,7 @@
     });
     errorElement.querySelector('.error__button').addEventListener('click', function () {
       mainContent.removeChild(errorElement);
-      window.load(onSuccess, onError);
+      window.backend.load(onSuccess, onError);
     });
     window.addEventListener('keydown', function (evt) {
       evt.preventDefault();
@@ -54,7 +54,7 @@
   };
 
   var activatePage = function () {
-    window.load(onSuccess, onError);
+    window.backend.load(onSuccess, onError);
     window.form.activateElement(selectFieldMapFilter);
     window.form.activateElement(fieldsetFieldMapFilter);
     window.form.activateElement(headerAdForm);
