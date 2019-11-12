@@ -8,38 +8,63 @@
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
   var imagesPreview = document.querySelector('.ad-form__photo');
 
-  var photoPreview = function (chooser, previewPosition) {
-    var file = chooser.files[chooser.files.length - 1];
+  var getActualImages = function (evt) {
+    var numberOfElements = evt.srcElement.files.length;
 
-    if (file) {
-      var fileName = file.name.toLowerCase();
-      var matches = FILE_TYPES.some(function (value) {
-        return fileName.endsWith(value);
+    for (var i = 0; i < numberOfElements; i++) {
+      var imageElement = document.createElement('img');
+      imageElement.alt = 'Фотографии жилья';
+      imageElement.height = '70';
+      imageElement.width = '70';
+      imagesPreview.appendChild(imageElement);
+    }
+
+    return Array.from(imagesPreview.querySelectorAll('img')).slice(-numberOfElements);
+  };
+
+  var changeStyle = function () {
+    imagesPreview.style.display = 'flex';
+    imagesPreview.style.flexWrap = 'wrap';
+    imagesPreview.style.flexGrow = '1';
+    imagesPreview.style.backgroundColor = 'transparent';
+  };
+
+  var photoPreview = function (chooser, previewPosition) {
+    var files = chooser.files;
+
+    if (!files) {
+      return;
+    }
+
+    Array.from(files).forEach(function (value, index) {
+      var fileName = value.name.toLowerCase();
+      var matches = FILE_TYPES.some(function (item) {
+        return fileName.endsWith(item);
       });
 
       if (matches) {
         var reader = new FileReader();
 
         reader.addEventListener('load', function () {
-          previewPosition.src = reader.result;
+          if (previewPosition.tagName === 'IMG') {
+            previewPosition.src = reader.result;
+          } else {
+            previewPosition[index].src = reader.result;
+          }
         });
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(value);
       }
-    }
+    });
   };
 
   fileAvatarChooser.addEventListener('change', function () {
     photoPreview(fileAvatarChooser, avatarPreview);
   });
-  imagesChooser.addEventListener('change', function () {
-    var imageElement = document.createElement('img');
-    imageElement.alt = 'Фотографии жилья';
-    imageElement.height = '70';
-    imageElement.width = '70';
-    imagesPreview.appendChild(imageElement);
-
-    var actualImage = imagesPreview.querySelector('img:last-of-type');
-    photoPreview(imagesChooser, actualImage);
+  imagesChooser.addEventListener('change', function (evt) {
+    if (imagesPreview.style.display !== 'flex') {
+      changeStyle();
+    }
+    photoPreview(imagesChooser, getActualImages(evt));
   });
 })();
