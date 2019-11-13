@@ -2,19 +2,10 @@
 
 (function () {
   var HousingType = {
-    'flat': 'Квартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец'
-  };
-
-  var ValueToClassName = {
-    'wifi': 'popup__feature--wifi',
-    'dishwasher': 'popup__feature--dishwasher',
-    'parking': 'popup__feature--parking',
-    'washer': 'popup__feature--washer',
-    'elevator': 'popup__feature--elevator',
-    'conditioner': 'popup__feature--conditioner'
+    'FLAT': 'Квартира',
+    'BUNGALO': 'Бунгало',
+    'HOUSE': 'Дом',
+    'PALACE': 'Дворец'
   };
 
   var adTemplate = document.querySelector('#card');
@@ -25,7 +16,7 @@
     for (var i = 0; i < features.length; i++) {
       var featureTemplateElement = document.createElement('li');
       featureTemplateElement.classList.add('popup__feature');
-      featureTemplateElement.classList.add(ValueToClassName[features[i]]);
+      featureTemplateElement.classList.add('popup__feature--' + features[i]);
 
       fragment.appendChild(featureTemplateElement);
     }
@@ -59,7 +50,7 @@
     adTemplateElement.querySelector('.popup__title').textContent = arr.offer.title;
     adTemplateElement.querySelector('.popup__text--address').textContent = arr.offer.address;
     adTemplateElement.querySelector('.popup__text--price').textContent = arr.offer.price + '₽/ночь';
-    adTemplateElement.querySelector('.popup__type').textContent = HousingType[arr.offer.type];
+    adTemplateElement.querySelector('.popup__type').textContent = HousingType[arr.offer.type.toUpperCase()];
     adTemplateElement.querySelector('.popup__text--capacity').textContent = arr.offer.rooms + 'комнаты для ' + arr.offer.guests + ' гостей';
     adTemplateElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + arr.offer.checkin + ', выезд до ' + arr.offer.checkout;
     adTemplateElement.querySelector('.popup__features').innerHTML = '';

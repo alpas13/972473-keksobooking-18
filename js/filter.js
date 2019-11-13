@@ -2,9 +2,15 @@
 
 (function () {
   var MAX_PINS = 5;
+  var VALUE_ANY = 'any';
   var PriceLevel = {
     MIN: 10000,
     MAX: 50000
+  };
+  var PriceType = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
   };
   var mapFilters = document.querySelector('.map__filters');
   var housingType = document.querySelector('#housing-type');
@@ -16,23 +22,23 @@
   var adsData = [];
 
   var housingTypeFilter = function (value) {
-    return value.offer.type === housingType.value || housingType.value === 'any';
+    return value.offer.type === housingType.value || housingType.value === VALUE_ANY;
   };
 
   var housingRoomsFilter = function (value) {
-    return value.offer.rooms === +housingRooms.value || housingRooms.value === 'any';
+    return value.offer.rooms === +housingRooms.value || housingRooms.value === VALUE_ANY;
   };
 
   var housingGuestsFilter = function (value) {
-    return value.offer.guests === +housingGuests.value || housingGuests.value === 'any';
+    return value.offer.guests === +housingGuests.value || housingGuests.value === VALUE_ANY;
   };
 
   var housingPriceFilter = function (value) {
-    if (housingPrice.value === 'middle') {
+    if (housingPrice.value === PriceType.MIDDLE) {
       return value.offer.price >= PriceLevel.MIN && value.offer.price < PriceLevel.MAX;
-    } else if (housingPrice.value === 'low') {
+    } else if (housingPrice.value === PriceType.LOW) {
       return value.offer.price < PriceLevel.MIN;
-    } else if (housingPrice.value === 'high') {
+    } else if (housingPrice.value === PriceType.HIGH) {
       return value.offer.price >= PriceLevel.MAX;
     } else {
       return true;
@@ -41,21 +47,11 @@
 
   var housingFeaturesFilter = function (data) {
     var housingFeaturesList = housingFeatures.querySelectorAll('.map__checkbox:checked');
-    var flag = true;
-    if (housingFeaturesList.length > 0) {
-      housingFeaturesList.forEach(function (value) {
-        var filterMatch = data.offer.features.some(function (item) {
-          return value.value === item;
-        });
-
-        if (!filterMatch) {
-          flag = false;
-        }
+    return Array.from(housingFeaturesList).every(function (value) {
+      return data.offer.features.some(function (item) {
+        return value.value === item;
       });
-      return flag;
-    } else {
-      return flag;
-    }
+    });
   };
 
   var housingSearch = function (data) {
