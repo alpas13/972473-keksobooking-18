@@ -2,6 +2,7 @@
 
 (function () {
   var MAX_ROOMS = '100';
+  var NOT_FOR_GUESTS = '0';
   var MinPrice = {
     'FLAT': 1000,
     'BUNGALO': 0,
@@ -45,15 +46,17 @@
       value.setAttribute('disabled', 'disabled');
       value.removeAttribute('selected');
     });
-    if (numbersRoomsField.value === MAX_ROOMS) {
-      numbersGuestsList[numbersGuestsList.length - 1].removeAttribute('disabled');
-      numbersGuestsList[numbersGuestsList.length - 1].setAttribute('selected', 'selected');
-    } else {
-      for (var i = numbersRoomsField.value; i > 0; i--) {
-        numbersGuestsList[(numbersGuestsList.length - 1) - i].removeAttribute('disabled');
+    numbersGuestsList.forEach(function (value) {
+      if (numbersRoomsField.value !== MAX_ROOMS && numbersRoomsField.value >= value.value && value.value !== NOT_FOR_GUESTS) {
+        value.removeAttribute('disabled');
+        if (numbersRoomsField.value === value.value) {
+          value.setAttribute('selected', 'selected');
+        }
+      } else if (numbersRoomsField.value === MAX_ROOMS && value.value === NOT_FOR_GUESTS) {
+        value.removeAttribute('disabled');
+        value.setAttribute('selected', 'selected');
       }
-      numbersGuestsList[(numbersGuestsList.length - 1) - numbersRoomsField.value].setAttribute('selected', 'selected');
-    }
+    });
   };
 
   var resetPinFragment = function (renderPlace) {
